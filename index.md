@@ -1,12 +1,26 @@
 # Multi-Objective Optimization of Suspension Kinematics
 
 This page presents extra material obtained in the case study presented on conference paper 238 - Multi-Objective 
-Optimization of Suspension Kinematics of a Race Car, published in [IAVSD 2021](https://iavsd2021.ru/).
+Optimization of Suspension Kinematics of a Race Car, published* in [IAVSD 2021](https://iavsd2021.ru/).
+
+(*) Full paper submitted, publication confirmation pending.
 
 Authors:
 - [Ariel Avi](https://www.linkedin.com/in/aviariel/)
 - [Claude Rouelle](https://www.linkedin.com/in/claude-rouelle-1810409/)
 - [Andrea Piga Carboni](https://www.linkedin.com/in/andrea-piga-carboni-032706180/)
+
+## Overview
+
+The optimization was run on a AWS c5a.8xlarge Ubuntu instance, running on 32 parallel threads. The total time needed 
+to run the 4000 generations was approximately 9 hours and 42 minutes. The genetic algorithm settings were:
+- Maximum generations: 4000
+- Population size: 300
+- Mutation rate: 5%
+- Mutation method: Gaussian mutation, 2mm standard deviation
+- Crossover method: Voluminal BLX-alpha, alpha=2$
+- Selection for reproduction: Ranked, 1 rank per generation
+- Selection for replacement: Truncation, 150 individuals per generation
 
 ## Baseline Suspension
 
@@ -58,6 +72,19 @@ Fig. 10 - Boundaries - Side View
 Fig. 11 - Boundaries - Top View
 
 ### Objective functions
+
+The objective functions are divided between several evaluation motions. An evaluation motion is the motion that 
+defines how the the individual should be evaluated (heave, roll, pitch, steering, or a combination of them). The
+objectives are shown preceeded by their respective evaluation motions, following the pattern \<Motion\> : 
+\<Objective\>.
+
+The evaluations were given in the form:
+- Heave: from -30mm to +30mm displacement w.r.t. the static position.
+- Roll: from -3deg to +3deg, with the axis of rotation set fixed, given by the line that connects the points
+A(1, 0, 0) and B(-1, 0, 0).
+- Pitch: from -1deg to +1deg, with the axis of rotation set fixed, given by the line that connects the points
+A(0, 1, 0) and B(0, -1, 0).
+- Steering: from -270deg to +270deg at the steering wheel with a rack ratio (mm/revolution) of 60.40.
 
 ![fig12](images/heave.front.half_track_l.png)
 Fig. 12 - Heave: Half Track (Front Left)
@@ -115,6 +142,8 @@ Fig. 29 - Steering: Steering Ratio
 
 ### Resulting system
 
+The resulting sytem geometries are shown below in several pictures.
+
 ![](images/optimized-front.png)
 Fig. 30 - Optimized Suspension: Front View
 
@@ -134,6 +163,8 @@ Fig. 34 - Optimized Suspension: Front axle on front view
 Fig. 35 - Optimized Suspension: Rear axle on front view
 
 ### Statistical results
+
+The optimization statistical results are shown below.
 
 ![](images/setup07_donut_plot.png)
 Fig. 36 - Average fitness distribution per objective of the final population
